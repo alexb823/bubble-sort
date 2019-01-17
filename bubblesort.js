@@ -45,7 +45,7 @@ function bubbleSort(array) {
   const arrayCopy = [...array];
   let sorted = true;
 
-  for (let i = 0; i < arrayCopy.length; i++) {
+  for (let i = 0; i < arrayCopy.length - 1; i++) {
     const currentVal = arrayCopy[i];
     const nextVal = arrayCopy[i + 1];
     if (currentVal > nextVal) {
@@ -55,10 +55,43 @@ function bubbleSort(array) {
     }
   }
   if (!sorted) {
-    return [
-      ...bubbleSort(arrayCopy.slice(0, -1)),
-      ...arrayCopy.slice(-1),
-    ];
+    return [...bubbleSort(arrayCopy.slice(0, -1)), ...arrayCopy.slice(-1)];
   }
   return arrayCopy;
 }
+
+
+//Solution 4 added comparator
+let arrToSort = [{ age: 4 }, { age: 8 }, { age: 2 }, { age: 9 }];
+function ageComparator(a, b) {
+  if (a.age < b.age) return -1;
+  if (a.age > b.age) return 1;
+  return 0;
+}
+
+function bubbleSortBonus(array, comparator) {
+  const arrayCopy = [...array];
+  let sorted = true;
+
+  for (let i = 0; i < arrayCopy.length - 1; i++) {
+    const currentVal = arrayCopy[i];
+    const nextVal = arrayCopy[i + 1];
+    if (comparator) {
+      if (comparator(currentVal, nextVal) > 0) {
+        arrayCopy[i] = nextVal;
+        arrayCopy[i + 1] = currentVal;
+        sorted = false;
+      }
+    } else if (currentVal > nextVal) {
+      arrayCopy[i] = nextVal;
+      arrayCopy[i + 1] = currentVal;
+      sorted = false;
+    }
+  }
+  if (!sorted) {
+    return [...bubbleSortBonus(arrayCopy.slice(0, -1), comparator), ...arrayCopy.slice(-1)];
+  }
+  return arrayCopy;
+}
+
+console.log(bubbleSortBonus(arrToSort, ageComparator));
