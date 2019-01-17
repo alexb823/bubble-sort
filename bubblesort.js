@@ -21,21 +21,44 @@
 // }
 
 //Solution 2 using nested for loops
+// function bubbleSort(array) {
+//   const arrayCopy = [...array];
+
+//   for(let i = arrayCopy.length - 1; i > 0; --i) {
+//     let sorted = true;
+//     for(let j = 0; j < i; ++j) {
+//       let currentVal = arrayCopy[j];
+//       let nextVal = arrayCopy[j + 1];
+//       if (currentVal > nextVal) {
+//         arrayCopy[j] = nextVal;
+//         arrayCopy[j + 1] = currentVal;
+//         sorted = false; //if swapped, array was not sorted
+//       }
+//     }
+//     if(sorted) return arrayCopy;
+//   }
+//   return arrayCopy;
+// }
+
+//Solution 3 using a for loops and recursion
 function bubbleSort(array) {
   const arrayCopy = [...array];
+  let sorted = true;
 
-  for(let i = arrayCopy.length - 1; i > 0; --i) {
-    let sorted = true;
-    for(let j = 0; j < i; ++j) {
-      let currentVal = arrayCopy[j];
-      let nextVal = arrayCopy[j + 1];
-      if (currentVal > nextVal) {
-        arrayCopy[j] = nextVal;
-        arrayCopy[j + 1] = currentVal;
-        sorted = false; //if swapped, array was not sorted
-      }
+  for (let i = 0; i < arrayCopy.length; i++) {
+    const currentVal = arrayCopy[i];
+    const nextVal = arrayCopy[i + 1];
+    if (currentVal > nextVal) {
+      arrayCopy[i] = nextVal;
+      arrayCopy[i + 1] = currentVal;
+      sorted = false;
     }
-    if(sorted) return arrayCopy;
+  }
+  if (!sorted) {
+    return [
+      ...bubbleSort(arrayCopy.slice(0, -1)),
+      ...arrayCopy.slice(-1),
+    ];
   }
   return arrayCopy;
 }
